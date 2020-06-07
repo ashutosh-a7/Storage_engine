@@ -1,0 +1,4 @@
+cat
+third
+NULL
+dog.txt

@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1591534436 source:c:\users\sony\desktop\c progrm\storage_engine\main.cpp
+	<iostream>
+	<bits/stdc++.h>
+	<fstream>
+

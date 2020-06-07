@@ -1,0 +1,252 @@
+#include <iostream>
+#include <bits/stdc++.h>
+#include <fstream>
+
+
+using namespace std;
+
+
+void add_in_file(char char_array[],vector<string>& temp,bool l,string& file_add)
+{
+    ofstream fout;
+    if(l){
+          fout.open(char_array,std::ofstream::out | std::ofstream::trunc);
+                            fout.close();
+                              fout.open(char_array);
+                              fout<<temp[0]<<"\n"<<temp[1]<<"\n"<<file_add<<"\n"<<temp[3];
+                             fout.close();
+    }
+    else{
+                  fout.open(char_array, std::ofstream::out | std::ofstream::trunc);
+                            fout.close();
+                              fout.open(char_array);
+                              fout<<temp[0]<<"\n"<<temp[1]<<"\n"<<temp[2]<<"\n"<<file_add;
+                             fout.close();
+
+    }
+}
+
+
+
+
+class HDD_node{
+
+    public:
+    string key,str,value,left,right;
+
+    ofstream fout;          /// to write
+    ifstream fin;         /// to read
+
+
+
+    HDD_node(string x,string y)
+    {
+         key = x;
+         value = y;
+         left =  "NULL";
+         right = "NULL";
+    }
+
+
+    void search_bst(string& key)
+ {
+             string t = "root.txt";
+             while(1){
+
+                   string open_file = t;                         // for converting the string to char array
+                   char char_array[open_file.length() + 1];
+                   strcpy(char_array, open_file.c_str());
+
+                 fin.open(char_array);
+                 vector<string> temp;
+                 while(getline(fin,str)) {  temp.push_back(str);    }
+                 fin.close();
+
+                if(key==temp[0])  { cout<<temp[1];  return;  }
+                int x = temp[0].compare(key);
+                if(x>0)           /// go left
+                {
+                     if(temp[2]=="NULL") {  break; }
+                     else{ t = temp[2]; }
+                }
+                else{
+                     if(temp[3]=="NULL") {  break; }
+                     else{ t = temp[3]; }
+                }
+        }
+
+
+
+
+
+
+
+
+
+        cout<<"NULL";
+
+    }
+
+    void insert_bst()
+    {
+           fin.open("root.txt");
+           if(!getline(fin,str))
+           {
+               fin.close();
+               fout.open("root.txt");
+
+                fout<<key<<"\n"<<value<<"\n"<<left<<"\n"<<right;
+                fout.close();
+
+           }
+           else{
+                           fin.close();
+
+                string file_add = key + "." + "txt";
+                    int n = file_add.length();
+                    char char_array[n + 1];
+                strcpy(char_array, file_add.c_str());          /////// converting string to char array
+                fout.open(char_array);           //////// creating an new file
+                fout<<key<<"\n"<<value<<"\n"<<left<<"\n"<<right;   ///// adding data to it
+                fout.close();       ////// closing it
+                string t = "root.txt";
+
+              while(1){
+
+                string open_file = t;
+                   char char_array[t.length() + 1];
+                strcpy(char_array, open_file.c_str());
+                 fin.open(char_array);
+                 vector<string> temp;
+                 while(getline(fin,str)) {  temp.push_back(str);    }
+                 fin.close();
+                int x = temp[0].compare(key);
+                if(x>0)            /// in left
+                {
+                    if(temp[2]=="NULL")
+                    {
+                           add_in_file(char_array,temp,1,file_add);
+                             break;
+                    }
+                    else{
+                        t = temp[2];
+                        }
+                }
+                else{
+                     if(temp[3]=="NULL")
+                    {
+                            add_in_file(char_array,temp,0,file_add);
+                             break;
+                    }
+                    else{
+                        t = temp[3];
+                        }
+                }
+
+                }
+
+           }
+    }
+
+
+  /*  void write(string& str)
+    {
+        fout.open("root.txt");
+        fout<<str+"\n"<<str<<"\n"<<str<<"\n"<<str;
+        fout.close();
+    }   */
+
+
+ /*   void read()
+    {
+        //FILE* file;
+        ofstream ofs;
+        ofs.open("root.txt", std::ofstream::out | std::ofstream::trunc);
+ofs.close();
+
+         fin.open("root.txt");
+       /// cout<<"This is your data from file"<<endl;
+      //  if(!getline(fin,str)) { cout<<"no data in file "; return; }
+        while(getline(fin,str))
+        {
+            cout<<str<<endl;
+           // str = "cool";
+        }
+        fin.close();
+
+    }*/
+
+
+};
+
+
+
+
+
+
+int main()
+{
+    cout << "Hello world!" << endl;
+
+////////////////////////////////  WRITING TO A FILE  ///////////////////////////////////////////////////////////
+
+  int t,n;
+    string str,val;
+    ofstream fout;
+
+
+    cout<<"Enter no of testcases: "<<endl;
+    cin>>t;
+    while(t--){
+    int x;
+
+        cout<<"Enter 1 if you want to insert values in bst"<<endl;
+        cout<<"Enter 2 if you want to search "<<endl;
+        cout<<"Enter 3 if break "<<endl;
+        cin>>x;
+
+     switch(x)
+     {
+      case 1:
+              cout<<"How many values you want to insert in bst: "<<endl;
+              cin>>n;
+            while(n--){
+
+              cout<<"Enter key and value :"<<endl;
+              cin>>str>>val;
+              HDD_node obj(str,val);
+              obj.insert_bst();
+            }
+            break;
+
+      case 2:
+            cout<<"Enter key to be searched: "<<endl;
+        cin>>str;
+        HDD_node obj(str,"just");
+
+        obj.search_bst(str);
+        break;
+
+    }
+      cout<<endl;
+    }
+  /*  while(t--){
+
+    cout<<"Enter key and value :"<<endl;
+    cin>>str>>val;
+        HDD_node obj(str,val);
+
+    obj.insert_bst();
+    }*/
+   /* while(t--)
+    {
+        cout<<"Enter key to be searched: "<<endl;
+        cin>>str;
+        obj.search_bst(str);
+
+
+    }*/
+
+
+    return 0;
+}
